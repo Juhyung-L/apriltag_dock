@@ -10,19 +10,25 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     pkg_share = get_package_share_directory('simulation_launch')
+    apriltag_share = get_package_share_directory('apriltag_ros')
     
     rviz_config_file_path = os.path.join(pkg_share, 'config', 'urdf_config.rviz')
     ekf_config_file_path = os.path.join(pkg_share, 'config', 'ekf.yaml')
-    world_file_path = os.path.join(pkg_share, 'worlds', 'apriltag_test.world')
+    world_file_path = os.path.join(pkg_share, 'worlds', 'house_with_apriltag.world')
     robot_model_file_path = os.path.join(pkg_share, 'urdf', 'mobile_bot.urdf')
+    map_yaml_file_path = os.path.join(pkg_share, 'map', 'map.yaml')
+    params_file_path = os.path.join(pkg_share, 'config', 'nav2_params.yaml')
 
     # launch configuration variables
     rviz_config_file = LaunchConfiguration('rviz_config_file')
     use_sim_time = LaunchConfiguration('use_sim_time')
-    x_pose = LaunchConfiguration('x_pose')
-    y_pose = LaunchConfiguration('y_pose')
+    x_spawn = LaunchConfiguration('x_spawn')
+    y_spawn = LaunchConfiguration('y_spawn')
+    yaw_spawn = LaunchConfiguration('yaw_spawn')
     world_file = LaunchConfiguration('world_file')
     robot_model_file = LaunchConfiguration('robot_model_file')
+    map_yaml_file = LaunchConfiguration('map_yaml_file')
+    params_file = LaunchConfiguration('params_file')
 
     # declare launch arguments
     delcare_rviz_config_file = DeclareLaunchArgument(
@@ -35,15 +41,20 @@ def generate_launch_description():
         default_value='true',
         description='Use simulation (Gazebo) clock if true'
     )
-    declare_x_pose = DeclareLaunchArgument(
-        name='x_pose',
-        default_value='0.0',
-        description='X-coordinate of robot spawn point'
+    declare_x_spawn = DeclareLaunchArgument(
+        name='x_spawn', 
+        default_value='-1.0',
+        description='x position of robot at spawn'
     )
-    declare_y_pose = DeclareLaunchArgument(
-        name='y_pose',
+    declare_y_spawn = DeclareLaunchArgument(
+        name='y_spawn', 
+        default_value='1.0',
+        description='y position of robot at spawn'
+    )
+    declare_yaw_spawn = DeclareLaunchArgument(
+        name='yaw_spawn',
         default_value='0.0',
-        description='Y-coordinate of robot spawn point'
+        description='yaw orientation of robot at spawn'
     )
     declare_world_file = DeclareLaunchArgument(
         name='world_file',
@@ -54,6 +65,16 @@ def generate_launch_description():
         name='robot_model_file',
         default_value=robot_model_file_path,
         description='Path to robot model file'
+    )
+    declare_map_yaml_file = DeclareLaunchArgument(
+        name='map_yaml_file',
+        default_value=map_yaml_file_path,
+        description='Path to map.yaml file for nav2_map_server'
+    )
+    declare_params_file = DeclareLaunchArgument(
+        name='params_file',
+        default_value=params_file_path,
+        description='Path to nav2 parameters file'
     )
 
     # declare nodes to launch
@@ -73,14 +94,40 @@ def generate_launch_description():
                     {'use_sim_time': use_sim_time}]
     )
 
+    # launch apriltag detection node
+    apriltag_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(apriltag_share, 'launch', 'apriltag_launch.py')
+        ),
+        launch_arguments={
+            'use_sim_time': use_sim_time
+        }.items()
+    )
+
+    # launch nav2 localization
+    nav2_localization_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_share, 'launch', 'localization_launch.py')
+        ),
+        launch_arguments={
+            'use_sim_time': use_sim_time,
+            'map': map_yaml_file,
+            'params_file': params_file,
+            'initial_pose.x': x_spawn,
+            'initial_pose.y': y_spawn,
+            'initial_pose.yaw': yaw_spawn
+        }.items()
+    )
+
     # launch other launch files
     robot_world_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_share, 'launch', 'robot_world.launch.py')
         ),
         launch_arguments={
-            'x_pose': x_pose,
-            'y_pose': y_pose,
+            'x_spawn': x_spawn,
+            'y_spawn': y_spawn,
+            'yaw_spawn': yaw_spawn,
             'use_sim_time': use_sim_time,
             'robot_model_file': robot_model_file,
             'world_file': world_file
@@ -90,12 +137,17 @@ def generate_launch_description():
     return LaunchDescription([
         delcare_rviz_config_file,
         delcare_use_sim_time,
-        declare_x_pose,
-        declare_y_pose,
+        declare_x_spawn,
+        declare_y_spawn,
+        declare_yaw_spawn,
         declare_world_file,
         declare_robot_model_file,
-
-        robot_world_launch,
+        declare_map_yaml_file,
+        declare_params_file,
+        
         robot_localization_node,
-        rviz_node
+        rviz_node,
+        apriltag_launch,
+        nav2_localization_launch,
+        robot_world_launch
     ])

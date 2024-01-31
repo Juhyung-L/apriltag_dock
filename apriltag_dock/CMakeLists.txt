@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.8)
 project(apriltag_dock)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
@@ -8,12 +10,51 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(apriltag_msgs REQUIRED)
+find_package(apriltag_dock REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(builtin_interfaces REQUIRED)
+find_package(nav2_msgs REQUIRED)
+find_package(nav2_util REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "action/AutoDock.action"
-  DEPENDENCIES std_msgs
+  action/AutoDock.action
+  action/FindAprilTag.action
+  DEPENDENCIES geometry_msgs
 )
+
+set(server_dependencies
+  rclcpp
+  rclcpp_action
+  geometry_msgs
+  apriltag_msgs
+  apriltag_dock
+  tf2_ros
+  tf2
+  nav2_msgs
+  nav2_util
+)
+
+set(client_dependencies
+  rclcpp
+  rclcpp_action
+  apriltag_dock
+)
+
+include_directories(
+  include
+)
+
+add_executable(server src/auto_dock_server.cpp src/find_apriltag_server.cpp)
+ament_target_dependencies(server ${server_dependencies})
+
+add_executable(client src/auto_dock_client.cpp src/main.cpp)
+ament_target_dependencies(client ${client_dependencies})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -26,5 +67,11 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+INSTALL(TARGETS
+  server
+  client
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 ament_package()

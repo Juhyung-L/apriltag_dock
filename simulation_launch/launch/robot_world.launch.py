@@ -14,8 +14,9 @@ def generate_launch_description():
     world_file = LaunchConfiguration('world_file')
     robot_model_file = LaunchConfiguration('robot_model_file')
     use_sim_time = LaunchConfiguration('use_sim_time')
-    x_pose = LaunchConfiguration('x_pose')
-    y_pose = LaunchConfiguration('y_pose')
+    x_spawn = LaunchConfiguration('x_spawn')
+    y_spawn = LaunchConfiguration('y_spawn')
+    yaw_spawn = LaunchConfiguration('yaw_spawn')
 
     declare_world_file = DeclareLaunchArgument(
         name='world_file',
@@ -32,16 +33,22 @@ def generate_launch_description():
         default_value='false',
         description='Use simulation (Gazebo) clock if true'
     )
-    declare_x_pose = DeclareLaunchArgument(
-        name='x_pose',
+    declare_x_spawn = DeclareLaunchArgument(
+        name='x_spawn', 
         default_value='0.0',
-        description='X-coordinate of robot spawn point'
+        description='x position of robot at spawn'
     )
-    declare_y_pose = DeclareLaunchArgument(
-        name='y_pose',
+    declare_y_spawn = DeclareLaunchArgument(
+        name='y_spawn', 
         default_value='0.0',
-        description='Y-coordinate of robot spawn point'
+        description='y position of robot at spawn'
     )
+    declare_yaw_spawn = DeclareLaunchArgument(
+        name='yaw_spawn',
+        default_value='0.0',
+        description='yaw orientation of robot at spawn'
+    )
+
 
     gzserver_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -70,8 +77,9 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_model_file': robot_model_file,
-            'x_pose': x_pose,
-            'y_pose': y_pose
+            'x_spawn': x_spawn,
+            'y_spawn': y_spawn,
+            'yaw_spawn': yaw_spawn
         }.items()
     )
 
@@ -79,8 +87,9 @@ def generate_launch_description():
         declare_world_file,
         declare_robot_model_file,
         declare_use_sim_time,
-        declare_x_pose,
-        declare_y_pose,
+        declare_x_spawn,
+        declare_y_spawn,
+        declare_yaw_spawn,
 
         gzserver_launch,
         gzclient_launch,

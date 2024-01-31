@@ -1,0 +1,9 @@
+# request
+float64 spin_speed # spin speed of robot
+float64 spin_duration # duration to spin
+float64 scan_duration # duration to locate AprilTag
+---
+# result
+geometry_msgs/Pose apriltag_pose
+---
+# feedback

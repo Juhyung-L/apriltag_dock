@@ -1,9 +1,7 @@
-
+# request
 ---
-# Result (if docking suceeded or not)
-bool success
+# result
 ---
-# Feedback 
-float32 distance_to_apriltag
-std_msgs/String current_state
-std_msgs/String current_action_state
+# feedback
+string state
+float64 distance_to_apriltag

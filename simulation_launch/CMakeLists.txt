@@ -26,6 +26,7 @@ install(DIRECTORY
   config 
   worlds
   urdf
+  map
   DESTINATION share/${PROJECT_NAME}
 )
 

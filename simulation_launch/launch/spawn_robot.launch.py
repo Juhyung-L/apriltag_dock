@@ -5,23 +5,29 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     robot_model_file = LaunchConfiguration('robot_model_file')
-    x_pose = LaunchConfiguration('x_pose')
-    y_pose = LaunchConfiguration('y_pose')
+    x_spawn = LaunchConfiguration('x_spawn')
+    y_spawn = LaunchConfiguration('y_spawn')
+    yaw_spawn = LaunchConfiguration('yaw_spawn')
 
     declare_robot_model_file = DeclareLaunchArgument(
         name='robot_model_file',
         default_value='',
         description='Path to robot model file'
     )
-    declare_x_position = DeclareLaunchArgument(
-        name='x_pose', 
+    declare_x_spawn = DeclareLaunchArgument(
+        name='x_spawn', 
         default_value='0.0',
-        description='Starting x position of the robot'
+        description='x position of robot at spawn'
     )
-    declare_y_position = DeclareLaunchArgument(
-        name='y_pose', 
+    declare_y_spawn = DeclareLaunchArgument(
+        name='y_spawn', 
         default_value='0.0',
-        description='Starting y position of the robot'
+        description='y position of robot at spawn'
+    )
+    declare_yaw_spawn = DeclareLaunchArgument(
+        name='yaw_spawn',
+        default_value='0.0',
+        description='yaw orientation of robot at spawn'
     )
 
     start_gazebo_ros_spawner = Node(
@@ -30,16 +36,17 @@ def generate_launch_description():
         arguments=[
             '-entity', 'mobile_bot',
             '-file', robot_model_file,
-            '-x', x_pose,
-            '-y', y_pose,
-            '-z', '0.01'
+            '-x', x_spawn,
+            '-y', y_spawn,
+            '-Y', yaw_spawn
         ],
         output='screen',
     )
 
     return LaunchDescription([
-        declare_x_position,
-        declare_y_position,
+        declare_x_spawn,
+        declare_y_spawn,
+        declare_yaw_spawn,
         declare_robot_model_file,
         start_gazebo_ros_spawner
     ])
