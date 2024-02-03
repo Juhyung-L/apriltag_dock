@@ -6,14 +6,14 @@
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
-#include "apriltag_dock/action/auto_dock.hpp"
+#include "apriltag_dock_msgs/action/auto_dock.hpp"
 
 using namespace std::placeholders;
 
 class AutoDockClient : public rclcpp::Node
 {
 public:
-    using AutoDock = apriltag_dock::action::AutoDock;
+    using AutoDock = apriltag_dock_msgs::action::AutoDock;
     using GoalHandleAutoDock = rclcpp_action::ClientGoalHandle<AutoDock>;
 
     explicit AutoDockClient(const rclcpp::NodeOptions& options = rclcpp::NodeOptions());

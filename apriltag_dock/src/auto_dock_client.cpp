@@ -3,7 +3,6 @@
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 
-#include "apriltag_dock/action/auto_dock.hpp"
 #include "apriltag_dock/auto_dock_client.hpp"
 
 using namespace std::placeholders;
@@ -94,9 +93,8 @@ void AutoDockClient::feedbackCallback(const GoalHandleAutoDock::SharedPtr,
     const std::shared_ptr<const AutoDock::Feedback> feedback)
 {
     RCLCPP_INFO(this->get_logger(), 
-        "Current docking state: %s",
-        "Distance to apriltag: %f",
-        feedback->state,
+        "Current docking state: %s\nDistance to AprilTag: %f m",
+        feedback->state.c_str(),
         feedback->distance_to_apriltag);
 }
 
