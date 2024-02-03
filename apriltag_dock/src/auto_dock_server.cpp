@@ -277,6 +277,8 @@ private:
                 break;
             }
         }
+        auto_dock_action_server_->succeeded_current(result);
+        RCLCPP_INFO(this->get_logger(), "Docking complete!");
     }
 
     // return the pose to the middle of the detection zone
