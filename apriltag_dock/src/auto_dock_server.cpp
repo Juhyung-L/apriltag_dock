@@ -291,7 +291,7 @@ private:
         goal_pose.position.y = apriltag_position_.y() + (apriltag_principle_axis_.y() * mid_far_detection_zone_dist);
         goal_pose.position.z = 0.0; // cuz 2D
 
-        // get orientation that faces the apriltag
+        // these don't matter
         goal_pose.orientation.x = 0.0;
         goal_pose.orientation.y = 0.0;
         goal_pose.orientation.z = 0.0;

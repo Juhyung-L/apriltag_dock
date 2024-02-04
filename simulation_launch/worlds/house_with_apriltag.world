@@ -72,7 +72,7 @@
     </scene>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-2.13519 4.28124 1.72964 0 0.625801 0.145592</pose>
+        <pose>-5.76103 2.19418 5.40542 0 0.737801 0.033592</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -6611,10 +6611,10 @@
       <pose>1.26636 -1.54006 0 0 -0 0</pose>
     </model>
     <state world_name='simple_house'>
-      <sim_time>310 961000000</sim_time>
-      <real_time>35 729783918</real_time>
-      <wall_time>1706913706 270311150</wall_time>
-      <iterations>35538</iterations>
+      <sim_time>335 325000000</sim_time>
+      <real_time>24 466230339</real_time>
+      <wall_time>1707089927 543079364</wall_time>
+      <iterations>24364</iterations>
       <model name='Apriltag36_11_00000'>
         <pose>-0.135413 4.40747 0.256496 0 -1.56869 0</pose>
         <scale>1 1 1</scale>
@@ -6906,23 +6906,23 @@
         </link>
       </model>
       <model name='first_2015_trash_can'>
-        <pose>1.88367 1.91185 -5e-06 -5e-06 2.4e-05 -0.000998</pose>
+        <pose>1.88368 1.91185 -2e-06 1.2e-05 6e-06 -0.001056</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>1.88367 1.91185 -5e-06 -5e-06 2.4e-05 -0.000998</pose>
+          <pose>1.88368 1.91185 -2e-06 1.2e-05 6e-06 -0.001056</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>2.23948 -0.323236 -4.45732 0.877658 -0.202577 9.6e-05</acceleration>
-          <wrench>10.8184 -1.56147 -21.5322 0 -0 0</wrench>
+          <acceleration>-0.69046 2.10445 -1.87665 -2.5724 -1.26685 3.14156</acceleration>
+          <wrench>-3.33545 10.1661 -9.06563 0 -0 0</wrench>
         </link>
       </model>
       <model name='first_2015_trash_can_0'>
-        <pose>-4.69333 4.89431 -3e-06 3e-06 1e-05 -0.000919</pose>
+        <pose>-4.69334 4.89431 -1e-06 1.3e-05 1.6e-05 -0.000922</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-4.69333 4.89431 -3e-06 3e-06 1e-05 -0.000919</pose>
+          <pose>-4.69334 4.89431 -1e-06 1.3e-05 1.6e-05 -0.000922</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-8.94252 1.29886 11.9995 2.7518 0.829926 -0.00125</acceleration>
-          <wrench>-43.1991 6.2745 57.9666 0 -0 0</wrench>
+          <acceleration>-5.91944 1.33323 5.51491 -0.47644 0.366317 3.13635</acceleration>
+          <wrench>-28.5954 6.4405 26.6412 0 -0 0</wrench>
         </link>
       </model>
       <model name='ground_plane'>
