@@ -282,10 +282,10 @@ private:
     }
 
     // return the pose to the middle of the detection zone
-    geometry_msgs::msg::Pose getDetectionZoneGoal(double max_far_detection_zone_dist, double min_far_detection_zone_dist)
+    geometry_msgs::msg::Pose getDetectionZoneGoal(double max_detection_zone_dist, double min_detection_zone_dist)
     {
         geometry_msgs::msg::Pose goal_pose;
-        double mid_far_detection_zone_dist = (max_far_detection_zone_dist + min_far_detection_zone_dist) / 2.0;
+        double mid_far_detection_zone_dist = (max_detection_zone_dist + min_detection_zone_dist) / 2.0;
 
         goal_pose.position.x = apriltag_position_.x() + (apriltag_principle_axis_.x() * mid_far_detection_zone_dist);
         goal_pose.position.y = apriltag_position_.y() + (apriltag_principle_axis_.y() * mid_far_detection_zone_dist);

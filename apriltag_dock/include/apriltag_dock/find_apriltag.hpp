@@ -29,7 +29,7 @@ public:
     void stopTask();
 
 private:
-    rclcpp::Node::SharedPtr node_;
+    rclcpp::Node* node_;
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_pub_;
     std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
     std::shared_ptr<tf2_ros::TransformListener> tf_listener_;

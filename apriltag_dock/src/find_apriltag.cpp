@@ -12,7 +12,7 @@ FindApriltag::FindApriltag(rclcpp::Node* node,
     std::string map_frame,
     std::string apriltag_frame,
     double transform_timeout)
-: node_(std::shared_ptr<rclcpp::Node>(node))
+: node_(node)
 , tf_buffer_(tf_buffer)
 , tf_listener_(tf_listener)
 , cmd_vel_topic_("cmd_vel")
